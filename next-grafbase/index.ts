@@ -1,6 +1,6 @@
-/** @type {import('next').NextConfig} */
+import type { NextConfig } from "next";
 
-const { spawn } = require("child_process");
+import { spawn } from "child_process";
 
 let devServerStarted = false;
 
@@ -12,7 +12,7 @@ const runGrafbase = () => {
 
 const createGrafbasePlugin =
   () =>
-  (nextConfig = {}) => {
+  (nextConfig: Partial<NextConfig> = {}): Partial<NextConfig> => {
     const isNextDev =
       process.argv.includes("dev") ||
       process.argv.some(
@@ -34,12 +34,4 @@ const createGrafbasePlugin =
     };
   };
 
-const withGrafbase = createGrafbasePlugin();
-
-const nextConfig = () =>
-  withGrafbase({
-    reactStrictMode: true,
-    swcMinify: true,
-  });
-
-module.exports = nextConfig;
+export const withGrafbase = createGrafbasePlugin();
